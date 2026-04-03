@@ -1,0 +1,11 @@
+## User Story
+
+From (https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Frameworks_libraries/React_todo_list_beginning),
+but implemented on my own without following the guide.
+
+- read a list of tasks.
+- add a task using the mouse or keyboard.
+- delete any task, using the mouse or keyboard.
+- TODO: mark any task as completed, using the mouse or keyboard.
+- TODO: edit any task, using the mouse or keyboard.
+- TODO: view a specific subset of tasks: All tasks, only the active task, or only the completed tasks.
