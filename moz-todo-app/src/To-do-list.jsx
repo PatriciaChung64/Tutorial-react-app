@@ -27,7 +27,7 @@ export default function TodoList() {
     setState(newlist);
   }
 
-  function changeCompletion(id) {
+  function updateCompletion(id) {
     const newlist = [...liststate];
     const index = newlist.findIndex((el) => el.id === id);
     newlist[index].completed = !newlist[index].completed;
@@ -39,7 +39,7 @@ export default function TodoList() {
     <>
       <li key={item.id}>{item.name}</li>
       <button itemindex={item.id} onClick={(e) => deleteItem(e.target.attributes.itemindex.value)}>Delete</button>
-      <input type="checkbox" itemindex={item.id} checked={item.completed} onChange={(e) => changeCompletion(e.target.attributes.itemindex.value)} />
+      <input type="checkbox" itemindex={item.id} checked={item.completed} onChange={(e) => updateCompletion(e.target.attributes.itemindex.value)} />
     </>
   ));
   return (
