@@ -2,7 +2,7 @@ import { useState } from 'react'
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import './App.css'
+import './To-do-list.css'
 
 let uniqueId = 3;
 const name = "To Do List";
@@ -60,10 +60,14 @@ export default function TodoList() {
   const listitems = liststate.map((item) => (
     <>
       <li className="list-item" key={item.id}>
-        {item.name}
-        {item.editing &&
-          <form action={(e) => { editItem(e) }}>
-            <input name="item" defaultValue={item.name} ></input>
+        <input className="checkbox" type="checkbox" checked={item.completed} onChange={(e) => updateCompletion(item.id)} />
+        <div className="item-text">
+          {item.name}
+        </div>
+        {
+          item.editing &&
+          <form className="edit-mode" action={(e) => { editItem(e) }}>
+            <input className="edit-mode-input" name="item" defaultValue={item.name} ></input>
             {/* create a hidden readonly text field so itemindex gets passed in the formData */}
             <input name="itemindex" value={item.id} style={{ display: "none" }} readOnly={true}></input>
             <IconButton aria-label="edit" type="submit">
@@ -71,21 +75,22 @@ export default function TodoList() {
             </IconButton>
           </form>
         }
-        {
-          !item.editing &&
-          <div onClick={() => enterEditMode(item.id)}>
-            <IconButton aria-label="edit">
-              <EditIcon />
+        <div className="buttons">
+          {
+            !item.editing &&
+            <div onClick={() => enterEditMode(item.id)}>
+              <IconButton aria-label="edit">
+                <EditIcon />
+              </IconButton>
+            </div>
+
+          }
+          <div onClick={() => deleteItem(item.id)}>
+            <IconButton aria-label="delete">
+              <DeleteIcon />
             </IconButton>
           </div>
-
-        }
-        <div onClick={() => deleteItem(item.id)}>
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
         </div>
-        <input type="checkbox" checked={item.completed} onChange={(e) => updateCompletion(item.id)} />
       </li>
     </>
   ));
