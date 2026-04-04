@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 
 let uniqueId = 3;
+const name = "To Do List";
 
 export default function TodoList() {
   const [liststate, setState] = useState([
@@ -55,7 +56,7 @@ export default function TodoList() {
 
   const listitems = liststate.map((item) => (
     <>
-      <li key={item.id}>{item.name}</li>
+      <li className="list-item" key={item.id}>{item.name}</li>
       { item.editing &&
         <form action={ (e) => { editItem(e)}}>
           <input name="item" defaultValue={item.name} ></input>
@@ -73,14 +74,15 @@ export default function TodoList() {
     </>
   ));
   return (
-    <>
-      <form action={addItem}>
-        <input name="item"></input>
-        <button type="submit">Add</button>
+    <div className="center">
+      <h1>{name}</h1>
+      <form className="form" action={addItem}>
+        <input className="input" name="item" defaultValue="Add new item..."></input>
+        <button className="button" type="submit">Add</button>
       </form>
-      <ul>
+      <ul className="list">
         {listitems}
       </ul>
-    </>
+    </div>
   )
 }
