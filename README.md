@@ -1,5 +1,6 @@
-## User Story
+## Todo List React App
 
+### Functionalities
 From (https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Frameworks_libraries/React_todo_list_beginning),
 but implemented on my own without following the guide.
 
