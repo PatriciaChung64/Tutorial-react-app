@@ -49,9 +49,10 @@
 }
 
 .checkbox {
-  margin-left: 90%;
-  width: 18px;
-  height: 18px;
+  margin-left: 85%;
+  /* width: 18px;
+  height: 18px; 
+  somehow adding width and height to checkbox make the onChange function stop working @-@*/
   align-items: flex-start;
 }
 
@@ -78,4 +79,21 @@
   font-size: 14px;
   height: 20px;
   margin-top: 8px;
+}
+
+.filter-list {
+  display: flex;
+  gap: 20px;
+}
+
+.filter-list-item {
+  user-select: none;
+  padding: 10px;
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+.filter-list-item:hover {
+  background-color: #0070E0;
+  color: white;
 }

@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import IconButton from '@mui/material/IconButton';
+import Checkbox from '@mui/material/Checkbox';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { StyledEngineProvider } from '@mui/material/styles';
 import './To-do-list.css'
 
 let uniqueId = 3;
@@ -12,6 +14,8 @@ export default function TodoList() {
     { "id": "0", "name": "Test 1", "completed": false, "editing": false },
     { "id": "1", "name": "Test 2", "completed": true, "editing": false },
     { "id": "2", "name": "Test 3", "completed": false, "editing": false }]);
+
+  const [filter, setFilter] = useState("all");
 
   function addItem(formData) {
     const item = formData.get("item");
@@ -57,42 +61,52 @@ export default function TodoList() {
     setState(newlist);
   }
 
-  const listitems = liststate.map((item) => (
-    <>
-      <li className="list-item" key={item.id}>
-        <input className="checkbox" type="checkbox" checked={item.completed} onChange={(e) => updateCompletion(item.id)} />
-        <div className="item-text">
-          {item.name}
-        </div>
-        {
-          item.editing &&
-          <form className="edit-mode" action={(e) => { editItem(e) }}>
-            <input className="edit-mode-input" name="item" defaultValue={item.name} ></input>
-            {/* create a hidden readonly text field so itemindex gets passed in the formData */}
-            <input name="itemindex" value={item.id} style={{ display: "none" }} readOnly={true}></input>
-            <IconButton aria-label="edit" type="submit">
-              <EditIcon />
-            </IconButton>
-          </form>
-        }
-        <div className="buttons">
+  let filterList = [...liststate];
+  if (filter === "completed") {
+    filterList = filterList.filter((item) => item.completed === true);
+  }
+  else if (filter === "incomplete") {
+    filterList = filterList.filter((item) => item.completed === false);
+  }
+
+  const listitems = filterList.map((item) => (
+    <StyledEngineProvider injectFirst> {/* this allows our custom css class to be injected before material UI's css so it doesn't get overwritten */}
+      <>
+        <li className="list-item" key={item.id}>
+          <Checkbox className="checkbox" checked={item.completed} onChange={() => updateCompletion(item.id)} />
+          <div className="item-text">
+            {item.name}
+          </div>
           {
-            !item.editing &&
-            <div onClick={() => enterEditMode(item.id)}>
-              <IconButton aria-label="edit">
+            item.editing &&
+            <form className="edit-mode" action={(e) => { editItem(e) }}>
+              <input className="edit-mode-input" name="item" defaultValue={item.name} ></input>
+              {/* create a hidden readonly text field so itemindex gets passed in the formData */}
+              <input name="itemindex" value={item.id} style={{ display: "none" }} readOnly={true}></input>
+              <IconButton aria-label="edit" type="submit">
                 <EditIcon />
               </IconButton>
-            </div>
-
+            </form>
           }
-          <div onClick={() => deleteItem(item.id)}>
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
+          <div className="buttons">
+            {
+              !item.editing &&
+              <div onClick={() => enterEditMode(item.id)}>
+                <IconButton aria-label="edit">
+                  <EditIcon />
+                </IconButton>
+              </div>
+
+            }
+            <div onClick={() => deleteItem(item.id)}>
+              <IconButton aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </div>
           </div>
-        </div>
-      </li>
-    </>
+        </li>
+      </>
+    </StyledEngineProvider>
   ));
   return (
     <div className="center">
@@ -101,6 +115,12 @@ export default function TodoList() {
         <input className="input" name="item" defaultValue="Add new item..."></input>
         <button className="button" type="submit">Add</button>
       </form>
+      <h1>Filter by completion status: </h1>
+      <div className="filter-list">
+        <p className="filter-list-item" onClick={() => setFilter("all")}>All</p>
+        <p className="filter-list-item" onClick={() => setFilter("completed")}>Completed</p>
+        <p className="filter-list-item" onClick={() => setFilter("incomplete")}>Incomplete</p>
+      </div>
       <ul className="list">
         {listitems}
       </ul>
