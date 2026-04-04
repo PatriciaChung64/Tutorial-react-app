@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import deleteIcon from './assets/delete.png';
-import editIcon from './assets/edit.png';
+import IconButton from '@mui/material/IconButton';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import './App.css'
 
 let uniqueId = 3;
@@ -65,15 +66,26 @@ export default function TodoList() {
             <input name="item" defaultValue={item.name} ></input>
             {/* create a hidden readonly text field so itemindex gets passed in the formData */}
             <input name="itemindex" value={item.id} style={{ display: "none" }} readOnly={true}></input>
-            <button type="submit">Edit</button>
+            <IconButton aria-label="edit" type="submit">
+              <EditIcon />
+            </IconButton>
           </form>
         }
         {
           !item.editing &&
-          <button icon={editIcon} itemindex={item.id} onClick={(e) => enterEditMode(e.target.attributes.itemindex.value)}>Edit</button>
+          <div onClick={() => enterEditMode(item.id)}>
+            <IconButton aria-label="edit">
+              <EditIcon />
+            </IconButton>
+          </div>
+
         }
-        <button itemindex={item.id} onClick={(e) => deleteItem(e.target.attributes.itemindex.value)}>Delete</button>
-        <input type="checkbox" itemindex={item.id} checked={item.completed} onChange={(e) => updateCompletion(e.target.attributes.itemindex.value)} />
+        <div onClick={() => deleteItem(item.id)}>
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </div>
+        <input type="checkbox" checked={item.completed} onChange={(e) => updateCompletion(item.id)} />
       </li>
     </>
   ));
